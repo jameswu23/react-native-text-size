@@ -172,9 +172,13 @@ RCT_EXPORT_METHOD(flatHeights:(NSDictionary * _Nullable)options
 
   // Create attributes for the font and the optional letter spacing.
   const CGFloat letterSpacing = CGFloatValueFrom(options[@"letterSpacing"]);
-  NSDictionary<NSAttributedStringKey,id> *const attributes = isnan(letterSpacing)
-  ? @{NSFontAttributeName: font}
-  : @{NSFontAttributeName: font, NSKernAttributeName: @(letterSpacing)};
+    const CGFloat lineSpacing = CGFloatValueFrom(options[@"lineHeight"])-CGFloatValueFrom(options[@"fontSize"])
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    paragraphStyle.lineSpacing = lineSpacing;
+    
+    NSDictionary<NSAttributedStringKey,id> *const attributes = isnan(letterSpacing)
+    ? @{NSFontAttributeName: font,NSParagraphStyleAttributeName:paragraphStyle}
+    : @{NSFontAttributeName: font, NSKernAttributeName: @(letterSpacing),NSParagraphStyleAttributeName:paragraphStyle};
 
   NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:maxSize];
   textContainer.lineFragmentPadding = 0.0;

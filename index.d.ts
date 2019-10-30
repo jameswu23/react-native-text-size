@@ -95,6 +95,7 @@ declare module "react-native-text-size" {
     width?: number;
     /** @default true */
     allowFontScaling?: boolean;
+    lineHeight?: number
   }
 
   export interface TSMeasureParams extends TSFontSpecs {
